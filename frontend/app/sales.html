@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-accent="blue">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Invoices | StockPilot</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div style="background:var(--accent-color); width:32px; height:32px; border-radius:4px; display:flex; align-items:center; justify-content:center; color:white;"><i data-lucide="package" style="width:16px;"></i></div>
+        <span style="font-weight:700;font-size:1.2rem;">StockPilot</span>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="/app/dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="/app/products.html" class="sidebar-link"><i data-lucide="box"></i> <span>Inventory</span></a></li>
+        <li><a href="/app/categories.html" class="sidebar-link"><i data-lucide="tags"></i> <span>Categories</span></a></li>
+        <li><a href="/app/warehouses.html" class="sidebar-link"><i data-lucide="warehouse"></i> <span>Warehouses</span></a></li>
+        <li><a href="/app/adjustments.html" class="sidebar-link"><i data-lucide="sliders"></i> <span>Adjustments</span></a></li>
+        <li><a href="/app/transfers.html" class="sidebar-link"><i data-lucide="arrow-left-right"></i> <span>Transfers</span></a></li>
+        <li><a href="/app/returns.html" class="sidebar-link"><i data-lucide="rotate-ccw"></i> <span>Returns</span></a></li>
+        <li><a href="/app/suppliers.html" class="sidebar-link"><i data-lucide="users"></i> <span>Suppliers</span></a></li>
+        <li><a href="/app/customers.html" class="sidebar-link"><i data-lucide="user-check"></i> <span>Customers</span></a></li>
+        <li><a href="/app/purchase-orders.html" class="sidebar-link"><i data-lucide="shopping-cart"></i> <span>Purchase Orders</span></a></li>
+        <li><a href="/app/sales.html" class="sidebar-link active"><i data-lucide="receipt"></i> <span>Sales Invoices</span></a></li>
+        <li><a href="/app/reports.html" class="sidebar-link"><i data-lucide="bar-chart-3"></i> <span>Reports</span></a></li>
+        <li><a href="/app/users.html" class="sidebar-link"><i data-lucide="shield"></i> <span>Users</span></a></li>
+        <li><a href="/app/settings.html" class="sidebar-link"><i data-lucide="settings"></i> <span>Settings</span></a></li>
+        <li><hr style="border:none; border-top:1px solid rgba(255,255,255,0.05); margin:10px 0;"></li>
+        <li><a href="/app/profile.html" class="sidebar-link"><i data-lucide="user"></i> <span>Profile</span></a></li>
+        <li><a href="#" onclick="handleLogout()" class="sidebar-link" style="color:var(--danger);"><i data-lucide="log-out"></i> <span>Logout</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Navbar -->
+      <nav class="top-navbar">
+        <div style="display:flex; align-items:center; gap:16px;">
+          <button class="nav-icon-btn sidebar-toggle-btn"><i data-lucide="menu"></i></button>
+          <span class="company-navbar-label" style="font-weight:600; font-size:1.1rem; color:var(--text-secondary);">Loading tenant...</span>
+        </div>
+        <div class="navbar-actions">
+          <button class="nav-icon-btn"><i data-lucide="bell"></i></button>
+          <div class="user-profile-nav" onclick="window.location.href='/app/profile.html'">
+            <img src="" alt="Profile" class="profile-avatar">
+            <span class="user-nav-name" style="font-weight:500; font-size:0.9rem; color:var(--text-primary);">Jane Admin</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Content -->
+      <div class="content-wrapper">
+        
+        <div class="page-header">
+          <div>
+            <h1 style="font-size:1.8rem; margin-bottom:4px;">Sales Invoices & Billing</h1>
+            <p style="color:var(--text-secondary); font-size:0.9rem;">Generate invoices, calculate regional taxes, and print receipts.</p>
+          </div>
+          <div>
+            <button class="btn btn-primary" onclick="openInvoiceModal()"><i data-lucide="plus"></i> Create Invoice</button>
+          </div>
+        </div>
+
+        <!-- Invoices List table -->
+        <div class="data-table-container">
+          <table class="data-table" id="sales-table">
+            <thead>
+              <tr>
+                <th>Invoice Number</th>
+                <th>Customer</th>
+                <th>Warehouse Outlet</th>
+                <th>Subtotal</th>
+                <th>Tax</th>
+                <th>Grand Total</th>
+                <th>Payment</th>
+                <th>Delivery</th>
+                <th>Print Invoice</th>
+              </tr>
+            </thead>
+            <tbody id="sales-tbody">
+              <tr><td colspan="9" style="text-align:center; color:var(--text-tertiary);">No sales billing history logged</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <footer style="background-color:var(--bg-secondary); border-top:1px solid var(--border-color); padding: 20px; text-align:center; font-size:0.8rem; color:var(--text-secondary);">
+        Developed by Nexovian Technologies. Licensed Commercial SaaS Product.
+      </footer>
+    </main>
+
+  </div>
+
+  <!-- CREATE NEW INVOICE MODAL -->
+  <div class="modal-overlay" id="invoice-modal">
+    <div class="modal-container" style="width:720px; max-width:95%;">
+      <div class="modal-header">
+        <h3>Create Sales Invoice</h3>
+        <button style="background:none; border:none; font-size:1.5rem; color:var(--text-secondary); cursor:pointer;" onclick="closeInvoiceModal()">×</button>
+      </div>
+      <form id="invoice-form" onsubmit="handleInvoiceSubmit(event)">
+        <div class="modal-body" style="max-height:65vh;">
+          
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+            <div class="form-group">
+              <label class="form-label" for="inv-modal-customer">Customer</label>
+              <select id="inv-modal-customer" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="inv-modal-warehouse">Warehouse Source</label>
+              <select id="inv-modal-warehouse" class="form-control" required></select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+            <div class="form-group">
+              <label class="form-label" for="inv-modal-payment">Payment Status</label>
+              <select id="inv-modal-payment" class="form-control">
+                <option value="Draft">Draft</option>
+                <option value="Pending">Pending Payment</option>
+                <option value="Paid">Paid</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="inv-modal-delivery">Delivery Status</label>
+              <select id="inv-modal-delivery" class="form-control">
+                <option value="Pending">Pending</option>
+                <option value="Delivered">Delivered</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <h4 style="margin-bottom:12px; font-size:1rem; border-bottom:1px solid var(--border-color); padding-bottom:6px; display:flex; justify-content:space-between;">
+            <span>Line Items</span>
+            <button type="button" class="btn btn-secondary" style="padding:4px 10px; font-size:0.8rem;" onclick="addInvoiceItemRow()"><i data-lucide="plus" style="width:12px;"></i> Add Product</button>
+          </h4>
+          <div id="inv-items-container" style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+            <!-- Dynamic product item lines -->
+          </div>
+
+          <!-- Total Calculation grid -->
+          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px; border-top:1px solid var(--border-color); padding-top:20px; font-size:0.9rem;">
+            <div>Discount Amount ($): <input type="number" id="inv-modal-discount" class="form-control" style="width:100px; display:inline-block; padding:4px 8px; margin-left:10px;" value="0" min="0" oninput="calculateInvoiceTotals()" /></div>
+            <div>Tax Rate (GST default): <span id="inv-modal-tax-rate">18%</span></div>
+            <div style="font-size:1.1rem; font-weight:700; color:var(--accent-color);">Grand Total: <span id="inv-modal-total-display">$0.00</span></div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeInvoiceModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Generate Invoice</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- PRINT INVOICE DIALOG TEMPLATE (Hidden, shown during print window) -->
+  <div id="print-invoice-template" style="display:none; padding:40px; font-family:sans-serif; background:white; color:black; width:100%;">
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #333; padding-bottom:20px; margin-bottom:30px;">
+      <div>
+        <h1 style="font-size:24px; margin:0;" id="print-inv-company">Apex Electronics Corp</h1>
+        <p style="font-size:12px; margin:5px 0 0;" id="print-inv-company-addr">Suite 404, Tech Park, Mumbai, MH</p>
+      </div>
+      <div style="text-align:right;">
+        <h2 style="font-size:20px; color:#2563eb; margin:0;">SALES INVOICE</h2>
+        <p style="font-size:13px; margin:5px 0 0; font-family:monospace;" id="print-inv-number">INV-1001</p>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-bottom:30px; font-size:13px;">
+      <div>
+        <strong style="text-transform:uppercase; color:#666;">Billed To:</strong>
+        <div style="font-size:15px; font-weight:700; margin-top:5px;" id="print-inv-cust-name">John Doe</div>
+        <div id="print-inv-cust-addr">1600 Pennsylvania Ave NW, USA</div>
+      </div>
+      <div style="text-align:right;">
+        <strong>Date Issued:</strong> <span id="print-inv-date">Jun 30, 2026</span><br>
+        <strong>Outlet Depot:</strong> <span id="print-inv-warehouse">Central WH-A</span>
+      </div>
+    </div>
+
+    <table style="width:100%; border-collapse:collapse; text-align:left; font-size:13px; margin-bottom:30px;">
+      <thead>
+        <tr style="border-bottom:2px solid #ddd; background:#f9f9f9;">
+          <th style="padding:10px;">Item Details</th>
+          <th style="padding:10px;">SKU</th>
+          <th style="padding:10px; text-align:right;">Unit Price</th>
+          <th style="padding:10px; text-align:right;">Qty</th>
+          <th style="padding:10px; text-align:right;">Total</th>
+        </tr>
+      </thead>
+      <tbody id="print-inv-tbody">
+        <!-- Rendered items rows -->
+      </tbody>
+    </table>
+
+    <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px; font-size:13px; border-top:1px solid #ddd; padding-top:20px;">
+      <div>Tax (GST 18%): <span id="print-inv-tax">$0.00</span></div>
+      <div>Discount Applied: -<span id="print-inv-discount">$0.00</span></div>
+      <div style="font-size:18px; font-weight:700; color:#2563eb; margin-top:5px;">Grand Total: <span id="print-inv-grandtotal">$0.00</span></div>
+    </div>
+
+    <div style="margin-top:80px; display:flex; justify-content:space-between; font-size:12px; color:#555;">
+      <div>Prepared By: <span>Jane Admin</span></div>
+      <div style="border-top:1px solid #999; width:200px; text-align:center; padding-top:5px; margin-top:20px;">Authorized Signature</div>
+    </div>
+  </div>
+
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/app.js"></script>
+  <script src="/assets/js/pages/sales.js"></script>
+</body>
+</html>

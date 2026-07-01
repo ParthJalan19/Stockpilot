@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Demo - StockPilot SaaS Inventory</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body style="padding-top: 80px;">
+
+  <!-- Header -->
+  <header class="landing-header">
+    <div class="logo-container">
+      <div class="logo-icon"><i data-lucide="package"></i></div>
+      <span>StockPilot</span>
+    </div>
+    <nav class="landing-nav">
+      <a href="/landing/index.html">Home</a>
+      <a href="/landing/features.html">Features</a>
+      <a href="/landing/pricing.html">Pricing</a>
+      <a href="/landing/about.html">About</a>
+      <a href="/landing/contact.html" style="color: var(--accent-color);">Book Demo</a>
+    </nav>
+    <div>
+      <a href="/app" class="btn btn-primary" style="padding: 8px 20px;"><i data-lucide="log-in"></i> Launch App</a>
+    </div>
+  </header>
+
+  <!-- Title -->
+  <section style="padding: 60px 24px; text-align: center; max-width:800px; margin:0 auto;">
+    <h1 style="font-size:2.8rem; margin-bottom:16px;">Schedule an Enterprise Demo</h1>
+    <p style="color:var(--text-secondary); font-size:1.1rem;">Submit your organization details below and a Nexovian logistics expert will walk you through a custom sandbox workspace.</p>
+  </section>
+
+  <!-- Contact Form -->
+  <section style="padding: 20px 24px 80px; max-width:600px; margin:0 auto;">
+    <div class="premium-card">
+      <form id="demo-form" onsubmit="handleDemoSubmit(event)">
+        <div class="form-group">
+          <label class="form-label" for="name">Your Name</label>
+          <input type="text" id="name" class="form-control" placeholder="John Doe" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="email">Work Email</label>
+          <input type="email" id="email" class="form-control" placeholder="john@company.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="org">Organization Name</label>
+          <input type="text" id="org" class="form-control" placeholder="Apex Logistics" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="size">Company Size</label>
+          <select id="size" class="form-control">
+            <option>1 - 10 employees</option>
+            <option>11 - 50 employees</option>
+            <option>51 - 200 employees</option>
+            <option>201+ employees</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="notes">Special Requirements</label>
+          <textarea id="notes" class="form-control" rows="3" placeholder="Tell us about your multi-warehouse setups..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;"><i data-lucide="send"></i> Book Demonstration</button>
+      </form>
+
+      <!-- Success Card -->
+      <div id="success-message" style="display:none; text-align:center; padding:20px;">
+        <div style="background:rgba(16,185,129,0.1); width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--success); margin:0 auto 20px;">
+          <i data-lucide="check-circle"></i>
+        </div>
+        <h3 style="margin-bottom:10px;">Demo Request Submitted!</h3>
+        <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:20px;">We have received your request. A Nexovian Engineer will email you details shortly.</p>
+        <button class="btn btn-secondary" onclick="resetForm()">Submit Another Request</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background-color:#111827; color:#9ca3af; padding: 48px 24px; text-align:center;">
+    <p style="font-size:0.9rem;">Developed by Nexovian Technologies. Licensed Commercial SaaS Product.</p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    const handleDemoSubmit = (e) => {
+      e.preventDefault();
+      document.getElementById('demo-form').style.display = 'none';
+      document.getElementById('success-message').style.display = 'block';
+    };
+
+    const resetForm = () => {
+      document.getElementById('demo-form').reset();
+      document.getElementById('demo-form').style.display = 'block';
+      document.getElementById('success-message').style.display = 'none';
+    };
+  </script>
+</body>
+</html>

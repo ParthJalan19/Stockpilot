@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Study: StockPilot Enterprise SaaS | Nexovian Technologies</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      background-color: #f8fafc;
+      color: #1f2937;
+      padding: 0;
+      margin: 0;
+    }
+    .case-study-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #1e3a8a, #0f172a);
+      color: white;
+      padding: 80px 24px;
+      text-align: center;
+      border-bottom: 4px solid var(--accent-color);
+    }
+    .section-title {
+      font-size: 2rem;
+      margin-top: 48px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 10px;
+      color: #0f172a;
+    }
+    .architecture-diagram {
+      background: #111827;
+      border-radius: var(--radius-md);
+      padding: 30px;
+      color: #10b981;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      margin: 24px 0;
+    }
+    .meta-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-top: -40px;
+      box-shadow: var(--shadow-lg);
+      z-index: 10;
+      position: relative;
+    }
+    .meta-item strong {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .meta-item span {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Banner -->
+  <div class="header-banner">
+    <span style="text-transform:uppercase; font-weight:700; letter-spacing:2px; font-size:0.9rem; color:#60a5fa;">Engineering Showcase Case Study</span>
+    <h1 style="font-size:3.2rem; color:white; margin:15px 0;">StockPilot Enterprise SaaS</h1>
+    <p style="font-size:1.25rem; opacity:0.8; max-width:600px; margin:0 auto;">Smart Multi-Warehouse Logistics and Billing for Modern Businesses.</p>
+  </div>
+
+  <div class="case-study-container">
+    
+    <!-- Meta Summary -->
+    <div class="meta-box">
+      <div class="meta-item">
+        <strong>Client / Project</strong>
+        <span>StockPilot SaaS</span>
+      </div>
+      <div class="meta-item">
+        <strong>Developed By</strong>
+        <span>Nexovian Technologies</span>
+      </div>
+      <div class="meta-item">
+        <strong>Tech Stack</strong>
+        <span>Node.js / MongoDB</span>
+      </div>
+      <div class="meta-item">
+        <strong>Status</strong>
+        <span>Production-Ready</span>
+      </div>
+    </div>
+
+    <!-- 1. Problem Statement -->
+    <h2 class="section-title">1. Problem Statement</h2>
+    <p style="line-height:1.8; margin-bottom:20px;">
+      Small to medium enterprises (SMEs) face massive discrepancies in stock management when scaling. Legacy systems like NetSuite or SAP are prohibitively expensive and require months of staff onboarding. Meanwhile, basic tools fail to isolate multi-tenant databases, track multi-warehouse allocations, generate automated QR labels, or log structured before-and-after audit logs. StockPilot was engineered by Nexovian Technologies to solve these issues.
+    </p>
+
+    <!-- 2. System Architecture -->
+    <h2 class="section-title">2. SaaS System Architecture</h2>
+    <p style="line-height:1.8; margin-bottom:20px;">
+      StockPilot leverages a clean, multi-tenant Express REST API routing framework mapped to isolated Mongoose schema structures. Tenancy is strictly enforced across every transaction, listing, search query, and analytics widget by scoping query lookups with the authenticated user's `organizationId` decoded from JWT headers.
+    </p>
+
+    <div class="architecture-diagram">
++-------------------------------------------------------------------+
+|                     LANDING MARKETING WEBSITE                      |
+|                Features / Pricing / Demo capturers                |
++---------------------------------+---------------------------------+
+                                  |
+                           Sign Up / Log In
+                                  v
++---------------------------------+---------------------------------+
+|                       WEB APPLICATION PANEL                       |
+|           Dashboard / Inventory / Invoicing / Transfers           |
++---------------------------------+---------------------------------+
+                                  |
+                             REST Request
+                                  v
++---------------------------------+---------------------------------+
+|                         EXPRESS BACKEND                           |
+|       Cors / Helmet / JWT verify / RBAC gates / Multer uploads    |
++---------------------------------+---------------------------------+
+                                  |
+                             Mongoose Query
+                                  v
++---------------------------------+---------------------------------+
+|                         MONGODB DATABASE                          |
+|        Tenant isolated collections scoped by organizationId       |
++-------------------------------------------------------------------+
+    </div>
+
+    <!-- 3. Database Design -->
+    <h2 class="section-title">3. Database Schema Models</h2>
+    <p style="line-height:1.8; margin-bottom:20px;">
+      The Mongoose collection layout was structured to handle high-frequency logistics ledger writes while preserving relational integrity:
+    </p>
+    <div class="data-table-container" style="margin:24px 0;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Collection Name</th>
+            <th>Scoping Type</th>
+            <th>Primary Indexing Elements</th>
+            <th>SaaS Operational Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>organizations</strong></td>
+            <td>Root Profile</td>
+            <td>`subdomain` (unique)</td>
+            <td>Stores timezone, currency tags, GST/PAN numbers, tax standard, logo paths.</td>
+          </tr>
+          <tr>
+            <td><strong>users</strong></td>
+            <td>Multi-Tenant</td>
+            <td>`email` (unique), `orgId`</td>
+            <td>Stores hashed credentials, session history logs, and RBAC permission flags.</td>
+          </tr>
+          <tr>
+            <td><strong>products</strong></td>
+            <td>Multi-Tenant</td>
+            <td>`sku` (unique per tenant), `orgId`</td>
+            <td>Catalog profiles, variant parameters, min/max thresholds, barcodes, manuals.</td>
+          </tr>
+          <tr>
+            <td><strong>warehouse_stocks</strong></td>
+            <td>Multi-Tenant</td>
+            <td>`productId` + `warehouseId` (unique)</td>
+            <td>Tracks physical quantity counts and reserved stock allocations at each hub.</td>
+          </tr>
+          <tr>
+            <td><strong>inventory_movements</strong></td>
+            <td>Multi-Tenant</td>
+            <td>`productId` + `warehouseId`</td>
+            <td>Immutable ledger logging before/after counts, updatedBy, and operation IDs.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 4. Key SaaS Workflows -->
+    <h2 class="section-title">4. Key SaaS Workflows</h2>
+    <ul style="padding-left:24px; line-height:1.8; display:flex; flex-direction:column; gap:16px; margin-bottom:30px;">
+      <li>
+        <strong>Stock Reservation logic:</strong> When a sales invoice is created, items are reserved (`reservedQuantity` increments). This prevents double-selling. Upon payment or completed delivery, the reservation is released, and items are physically deducted from warehouse counts, logging ledger movement logs.
+      </li>
+      <li>
+        <strong>Inter-Warehouse transfers:</strong> Proposed shipments must specify a source warehouse with verified available stock. Stock is reserved on proposal, deducted on shipment, and added to the destination warehouse upon receiving intake scans.
+      </li>
+      <li>
+        <strong>Onboarding Setup Wizard:</strong> New signups are guided through localization, establishing default warehouses, default categories, and publishing their first active inventory SKU to prevent blank dashboard displays.
+      </li>
+    </ul>
+
+    <!-- 5. Future AI Readiness -->
+    <h2 class="section-title">5. Future AI Expansion</h2>
+    <p style="line-height:1.8;">
+      StockPilot contains a reserved `backend/ai/` module structure holding forecasting models stubs (`forecast.js`, `reorderSuggestion.js`, `salesPrediction.js`). These hooks are prepared to run linear regression algorithms on historical customer sales and purchase records, alerting managers on reorder dates and warning of prospective supply chain failures.
+    </p>
+
+  </div>
+
+  <footer style="background-color:#111827; color:#9ca3af; padding: 48px 24px; text-align:center;">
+    <p style="font-size:0.9rem;">Developed by Nexovian Technologies. Licensed Commercial SaaS Product.</p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

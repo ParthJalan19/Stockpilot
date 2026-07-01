@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Specifications | StockPilot</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      background-color: #f8fafc;
+      color: #1f2937;
+      padding: 0;
+      margin: 0;
+    }
+    .api-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .api-route-block {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .route-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    .method-badge {
+      font-family: monospace;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .method-get { background: #d1fae5; color: #065f46; }
+    .method-post { background: #dbeafe; color: #1e40af; }
+    .method-put { background: #fef3c7; color: #92400e; }
+    .method-delete { background: #fee2e2; color: #991b1b; }
+    .route-path {
+      font-family: monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .param-list {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      background: #f1f5f9;
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div style="background:#0f172a; color:white; padding:40px 24px; text-align:center;">
+    <h1 style="font-size:2.4rem; color:white; margin:0 0 10px;">StockPilot REST API</h1>
+    <p style="font-size:1.1rem; opacity:0.8; margin:0;">Complete endpoint integration routes and request/response specifications.</p>
+  </div>
+
+  <div class="api-container">
+    
+    <div style="margin-bottom:40px;">
+      <h2 style="font-size:1.6rem; margin-bottom:12px;">Authentication Headers</h2>
+      <p style="color:var(--text-secondary); line-height:1.7;">
+        All API requests (except login and register) must pass the verified user authentication JWT token inside the authorization header field:
+      </p>
+      <div style="background:#0f172a; color:#10b981; font-family:monospace; padding:15px; border-radius:6px; margin-top:10px;">
+        Authorization: Bearer &lt;stockpilot_access_token&gt;
+      </div>
+    </div>
+
+    <h2 style="font-size:1.6rem; margin-bottom:24px; border-bottom:2px solid var(--border-color); padding-bottom:10px;">Endpoint Specifications</h2>
+
+    <!-- Auth -->
+    <div class="api-route-block">
+      <div class="route-header">
+        <span class="method-badge method-post">POST</span>
+        <span class="route-path">/api/auth/register-org</span>
+      </div>
+      <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:12px;">Create a new tenant organization and primary administrator login.</p>
+      <div class="param-list">
+        <strong>Body Parameters:</strong><br>
+        `name` (String, required) - Organization name.<br>
+        `email` (String, required) - Admin user email address.<br>
+        `password` (String, required) - Password credentials.
+      </div>
+    </div>
+
+    <div class="api-route-block">
+      <div class="route-header">
+        <span class="method-badge method-post">POST</span>
+        <span class="route-path">/api/auth/login</span>
+      </div>
+      <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:12px;">Verify credentials, write access tokens, and record session histories logs.</p>
+      <div class="param-list">
+        <strong>Body Parameters:</strong><br>
+        `email` (String, required), `password` (String, required)
+      </div>
+    </div>
+
+    <!-- Products -->
+    <div class="api-route-block">
+      <div class="route-header">
+        <span class="method-badge method-get">GET</span>
+        <span class="route-path">/api/products</span>
+      </div>
+      <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:12px;">Load paginated product lists scoped to active tenant. Supports search query and stock level filters.</p>
+      <div class="param-list">
+        <strong>Query Parameters:</strong><br>
+        `page` (Number), `limit` (Number), `search` (String), `category` (ObjectId), `stockStatus` (String: LowStock/OutOfStock)
+      </div>
+    </div>
+
+    <div class="api-route-block">
+      <div class="route-header">
+        <span class="method-badge method-post">POST</span>
+        <span class="route-path">/api/products</span>
+      </div>
+      <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:12px;">Create a new item entry. Supports uploading product photos (multipart form).</p>
+      <div class="param-list">
+        <strong>Body Parameters:</strong><br>
+        `sku` (String, unique), `name` (String, required), `purchasePrice` (Number), `sellingPrice` (Number), `category` (ObjectId)
+      </div>
+    </div>
+
+    <!-- Transfers -->
+    <div class="api-route-block">
+      <div class="route-header">
+        <span class="method-badge method-put">PUT</span>
+        <span class="route-path">/api/transfers/:id/status</span>
+      </div>
+      <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:12px;">Transition inter-warehouse transfer stages. Stock reservation updates physically execute on Completed transitions.</p>
+      <div class="param-list">
+        <strong>Body Parameters:</strong><br>
+        `status` (String, required) - Valid status options: `Approved`, `Shipped`, `Received`, `Cancelled`
+      </div>
+    </div>
+
+    <!-- Backup -->
+    <div class="api-route-block">
+      <div class="route-header">
+        <span class="method-badge method-get">GET</span>
+        <span class="route-path">/api/settings/backup</span>
+      </div>
+      <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:12px;">Download all data collections linked to active organization as an encapsulated backup file.</p>
+    </div>
+
+  </div>
+
+  <footer style="background-color:#0f172a; color:#9ca3af; padding: 40px; text-align:center;">
+    <p style="font-size:0.9rem; margin:0;">Developed by Nexovian Technologies. Licensed Commercial SaaS Product.</p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

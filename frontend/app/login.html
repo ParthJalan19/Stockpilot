@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | StockPilot SaaS</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.95), rgba(17, 24, 39, 0.8)), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glass-panel" style="width: 480px; max-width: 100%; padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium);">
+    <!-- Logo & Tagline -->
+    <div style="text-align: center; margin-bottom: 30px;">
+      <div style="display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-headings); font-weight: 700; font-size: 2rem; color: white;">
+        <div style="background: var(--accent-color); width: 44px; height: 44px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;"><i data-lucide="package"></i></div>
+        StockPilot
+      </div>
+      <p style="color: #9ca3af; font-size: 0.875rem; margin-top: 8px;">Smart Inventory Management for Modern Businesses.</p>
+    </div>
+
+    <!-- Login Panel -->
+    <div id="login-panel">
+      <h2 style="color: white; margin-bottom: 20px; font-size: 1.4rem;">Sign In</h2>
+      <form onsubmit="handleLoginSubmit(event)">
+        <div class="form-group">
+          <label class="form-label" style="color: #d1d5db;" for="login-email">Email Address</label>
+          <input type="email" id="login-email" class="form-control" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); color:white;" placeholder="name@company.com" required />
+        </div>
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <label class="form-label" style="color: #d1d5db; margin-bottom: 0;" for="login-password">Password</label>
+            <a href="#" onclick="showPanel('forgot')" style="font-size: 0.8rem; color: var(--accent-color);">Forgot Password?</a>
+          </div>
+          <input type="password" id="login-password" class="form-control" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); color:white;" placeholder="••••••••" required />
+        </div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; font-size:0.875rem; color:#9ca3af;">
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" id="remember-me" style="cursor:pointer;" /> Remember Me
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 20px;"><i data-lucide="log-in"></i> Sign In</button>
+      </form>
+      <div style="text-align: center; font-size: 0.9rem; color: #9ca3af;">
+        Don't have an organization? <a href="#" onclick="showPanel('register')" style="color: var(--accent-color); font-weight: 600;">Register Here</a>
+      </div>
+    </div>
+
+    <!-- Register Panel -->
+    <div id="register-panel" style="display: none;">
+      <h2 style="color: white; margin-bottom: 20px; font-size: 1.4rem;">Register Organization</h2>
+      <form onsubmit="handleRegisterSubmit(event)">
+        <div class="form-group">
+          <label class="form-label" style="color: #d1d5db;" for="reg-org">Organization Name</label>
+          <input type="text" id="reg-org" class="form-control" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); color:white;" placeholder="Acme Logistics Corp" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" style="color: #d1d5db;" for="reg-name">Full Name</label>
+          <input type="text" id="reg-name" class="form-control" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); color:white;" placeholder="John Doe" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" style="color: #d1d5db;" for="reg-email">Work Email</label>
+          <input type="email" id="reg-email" class="form-control" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); color:white;" placeholder="name@company.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" style="color: #d1d5db;" for="reg-password">Password</label>
+          <input type="password" id="reg-password" class="form-control" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); color:white;" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 20px;"><i data-lucide="user-plus"></i> Create Organization</button>
+      </form>
+      <div style="text-align: center; font-size: 0.9rem; color: #9ca3af;">
+        Already registered? <a href="#" onclick="showPanel('login')" style="color: var(--accent-color); font-weight: 600;">Sign In</a>
+      </div>
+    </div>
+
+    <!-- Forgot Password Panel -->
+    <div id="forgot-panel" style="display: none;">
+      <h2 style="color: white; margin-bottom: 20px; font-size: 1.4rem;">Reset Password Request</h2>
+      <form onsubmit="handleForgotSubmit(event)">
+        <div class="form-group">
+          <label class="form-label" style="color: #d1d5db;" for="forgot-email">Account Email</label>
+          <input type="email" id="forgot-email" class="form-control" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); color:white;" placeholder="name@company.com" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 20px;">Generate Reset Token</button>
+      </form>
+      <div style="text-align: center; font-size: 0.9rem; color: #9ca3af;">
+        Back to <a href="#" onclick="showPanel('login')" style="color: var(--accent-color);">Login</a>
+      </div>
+    </div>
+
+    <!-- Reset Password Final Form -->
+    <div id="reset-panel" style="display: none;">
+      <h2 style="color: white; margin-bottom: 20px; font-size: 1.4rem;">Enter New Password</h2>
+      <form onsubmit="handleResetSubmit(event)">
+        <div class="form-group">
+          <label class="form-label" style="color: #d1d5db;" for="reset-password">New Password</label>
+          <input type="password" id="reset-password" class="form-control" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); color:white;" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 20px;">Save Password</button>
+      </form>
+    </div>
+
+  </div>
+
+  <script src="/assets/js/api.js"></script>
+  <script>
+    lucide.createIcons();
+
+    // Check if redirect has reset token
+    const urlParams = new URLSearchParams(window.location.search);
+    const action = urlParams.get('action');
+    const token = urlParams.get('token');
+    
+    if (action === 'reset' && token) {
+      showPanel('reset');
+    }
+
+    function showPanel(panelName) {
+      document.getElementById('login-panel').style.display = 'none';
+      document.getElementById('register-panel').style.display = 'none';
+      document.getElementById('forgot-panel').style.display = 'none';
+      document.getElementById('reset-panel').style.display = 'none';
+      
+      document.getElementById(panelName + '-panel').style.display = 'block';
+    }
+
+    // Submit actions
+    const handleLoginSubmit = async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      try {
+        const data = await apiCall('/auth/login', {
+          method: 'POST',
+          body: JSON.stringify({ email, password })
+        });
+
+        if (data.success) {
+          localStorage.setItem('stockpilot_access_token', data.accessToken);
+          localStorage.setItem('stockpilot_refresh_token', data.refreshToken);
+          localStorage.setItem('stockpilot_user_role', data.user.role);
+          
+          showToast('Authenticated successfully. Loading dashboard...', 'success');
+          setTimeout(() => {
+            // Checks if user profile phone metadata is empty, which triggers the Onboarding Wizard redirection
+            window.location.href = '/app/dashboard.html';
+          }, 1000);
+        }
+      } catch (err) {
+        // Handled globally in apiCall
+      }
+    };
+
+    const handleRegisterSubmit = async (e) => {
+      e.preventDefault();
+      const orgName = document.getElementById('reg-org').value;
+      const name = document.getElementById('reg-name').value;
+      const email = document.getElementById('reg-email').value;
+      const password = document.getElementById('reg-password').value;
+
+      try {
+        const data = await apiCall('/auth/register', {
+          method: 'POST',
+          body: JSON.stringify({ orgName, name, email, password })
+        });
+
+        if (data.success) {
+          localStorage.setItem('stockpilot_access_token', data.accessToken);
+          localStorage.setItem('stockpilot_refresh_token', data.refreshToken);
+          localStorage.setItem('stockpilot_user_role', data.user.role);
+          
+          showToast('Organization created successfully! Launching Onboarding...', 'success');
+          setTimeout(() => {
+            window.location.href = '/app/onboarding.html';
+          }, 1000);
+        }
+      } catch (err) {
+        // Handled
+      }
+    };
+
+    const handleForgotSubmit = async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('forgot-email').value;
+      try {
+        const data = await apiCall('/auth/forgot-password', {
+          method: 'POST',
+          body: JSON.stringify({ email })
+        });
+        if (data.success) {
+          showToast('Reset email link simulated. Checking reset route...', 'info');
+          setTimeout(() => {
+            window.location.href = data.resetLink;
+          }, 1500);
+        }
+      } catch (err) {}
+    };
+
+    const handleResetSubmit = async (e) => {
+      e.preventDefault();
+      const password = document.getElementById('reset-password').value;
+      try {
+        const data = await apiCall('/auth/reset-password', {
+          method: 'POST',
+          body: JSON.stringify({ token, password })
+        });
+        if (data.success) {
+          showToast('Password updated. Please log in.', 'success');
+          setTimeout(() => {
+            window.location.href = '/app/login.html';
+          }, 1500);
+        }
+      } catch (err) {}
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-accent="blue">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warehouses Layout | StockPilot</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div style="background:var(--accent-color); width:32px; height:32px; border-radius:4px; display:flex; align-items:center; justify-content:center; color:white;"><i data-lucide="package" style="width:16px;"></i></div>
+        <span style="font-weight:700;font-size:1.2rem;">StockPilot</span>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="/app/dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="/app/products.html" class="sidebar-link"><i data-lucide="box"></i> <span>Inventory</span></a></li>
+        <li><a href="/app/categories.html" class="sidebar-link"><i data-lucide="tags"></i> <span>Categories</span></a></li>
+        <li><a href="/app/warehouses.html" class="sidebar-link active"><i data-lucide="warehouse"></i> <span>Warehouses</span></a></li>
+        <li><a href="/app/adjustments.html" class="sidebar-link"><i data-lucide="sliders"></i> <span>Adjustments</span></a></li>
+        <li><a href="/app/transfers.html" class="sidebar-link"><i data-lucide="arrow-left-right"></i> <span>Transfers</span></a></li>
+        <li><a href="/app/returns.html" class="sidebar-link"><i data-lucide="rotate-ccw"></i> <span>Returns</span></a></li>
+        <li><a href="/app/suppliers.html" class="sidebar-link"><i data-lucide="users"></i> <span>Suppliers</span></a></li>
+        <li><a href="/app/customers.html" class="sidebar-link"><i data-lucide="user-check"></i> <span>Customers</span></a></li>
+        <li><a href="/app/purchase-orders.html" class="sidebar-link"><i data-lucide="shopping-cart"></i> <span>Purchase Orders</span></a></li>
+        <li><a href="/app/sales.html" class="sidebar-link"><i data-lucide="receipt"></i> <span>Sales Invoices</span></a></li>
+        <li><a href="/app/reports.html" class="sidebar-link"><i data-lucide="bar-chart-3"></i> <span>Reports</span></a></li>
+        <li><a href="/app/users.html" class="sidebar-link"><i data-lucide="shield"></i> <span>Users</span></a></li>
+        <li><a href="/app/settings.html" class="sidebar-link"><i data-lucide="settings"></i> <span>Settings</span></a></li>
+        <li><hr style="border:none; border-top:1px solid rgba(255,255,255,0.05); margin:10px 0;"></li>
+        <li><a href="/app/profile.html" class="sidebar-link"><i data-lucide="user"></i> <span>Profile</span></a></li>
+        <li><a href="#" onclick="handleLogout()" class="sidebar-link" style="color:var(--danger);"><i data-lucide="log-out"></i> <span>Logout</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Navbar -->
+      <nav class="top-navbar">
+        <div style="display:flex; align-items:center; gap:16px;">
+          <button class="nav-icon-btn sidebar-toggle-btn"><i data-lucide="menu"></i></button>
+          <span class="company-navbar-label" style="font-weight:600; font-size:1.1rem; color:var(--text-secondary);">Loading tenant...</span>
+        </div>
+        <div class="navbar-actions">
+          <button class="nav-icon-btn"><i data-lucide="bell"></i></button>
+          <div class="user-profile-nav" onclick="window.location.href='/app/profile.html'">
+            <img src="" alt="Profile" class="profile-avatar">
+            <span class="user-nav-name" style="font-weight:500; font-size:0.9rem; color:var(--text-primary);">Jane Admin</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Content -->
+      <div class="content-wrapper">
+        
+        <div class="page-header">
+          <div>
+            <h1 style="font-size:1.8rem; margin-bottom:4px;">Warehouse Depots Layout</h1>
+            <p style="color:var(--text-secondary); font-size:0.9rem;">Setup multi-warehouse locations and manage status parameters.</p>
+          </div>
+          <div>
+            <button class="btn btn-primary" onclick="openWHModal()"><i data-lucide="plus"></i> Add Warehouse</button>
+          </div>
+        </div>
+
+        <!-- Warehouses Grid layout -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px;" id="warehouses-grid">
+          <!-- Loading skeleton -->
+          <div class="premium-card">
+            <div class="skeleton-row"></div>
+            <div class="skeleton-row"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <footer style="background-color:var(--bg-secondary); border-top:1px solid var(--border-color); padding: 20px; text-align:center; font-size:0.8rem; color:var(--text-secondary);">
+        Developed by Nexovian Technologies. Licensed Commercial SaaS Product.
+      </footer>
+    </main>
+
+  </div>
+
+  <!-- CREATE / EDIT WAREHOUSE MODAL -->
+  <div class="modal-overlay" id="wh-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="wh-modal-title">Create Warehouse</h3>
+        <button style="background:none; border:none; font-size:1.5rem; color:var(--text-secondary); cursor:pointer;" onclick="closeWHModal()">×</button>
+      </div>
+      <form id="wh-form" onsubmit="handleWHSubmit(event)">
+        <input type="hidden" id="wh-id" />
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="wh-modal-name">Warehouse Name</label>
+            <input type="text" id="wh-modal-name" class="form-control" placeholder="e.g. Central Warehouse A" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="wh-modal-code">Warehouse Code</label>
+            <input type="text" id="wh-modal-code" class="form-control" placeholder="e.g. WH-A" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="wh-modal-address">Location Address</label>
+            <input type="text" id="wh-modal-address" class="form-control" placeholder="Physical Address" />
+          </div>
+          <div class="form-group" id="wh-status-group" style="display:none;">
+            <label class="form-label" for="wh-modal-status">Status</label>
+            <select id="wh-modal-status" class="form-control">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeWHModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Location</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/app.js"></script>
+  <script src="/assets/js/pages/warehouses.js"></script>
+</body>
+</html>

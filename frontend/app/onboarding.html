@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onboarding Setup Wizard | StockPilot</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      background: var(--bg-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .wizard-step {
+      display: none;
+    }
+    .wizard-step.active {
+      display: block;
+    }
+    .step-indicator {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--text-secondary);
+      border: 2px solid var(--border-color);
+    }
+    .step-indicator.completed {
+      background: var(--success-light);
+      color: var(--success);
+      border-color: var(--success);
+    }
+    .step-indicator.active {
+      background: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glass-panel" style="width: 680px; max-width: 100%; padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium);">
+    
+    <!-- Header Step tracker -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px; position:relative;">
+      <!-- Connection line -->
+      <div style="position:absolute; top:16px; left:0; width:100%; height:2px; background:var(--border-color); z-index:1;"></div>
+      
+      <!-- Steps -->
+      <div style="display:flex; flex-direction:column; align-items:center; gap:8px; z-index:2; position:relative; background:var(--bg-secondary); padding:0 10px;" class="indicator-group" data-step="1">
+        <div class="step-indicator active">1</div>
+        <span style="font-size:0.75rem; font-weight:600;">Organization</span>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:8px; z-index:2; position:relative; background:var(--bg-secondary); padding:0 10px;" class="indicator-group" data-step="2">
+        <div class="step-indicator">2</div>
+        <span style="font-size:0.75rem; font-weight:600;">Localization</span>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:8px; z-index:2; position:relative; background:var(--bg-secondary); padding:0 10px;" class="indicator-group" data-step="3">
+        <div class="step-indicator">3</div>
+        <span style="font-size:0.75rem; font-weight:600;">Warehouse</span>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:8px; z-index:2; position:relative; background:var(--bg-secondary); padding:0 10px;" class="indicator-group" data-step="4">
+        <div class="step-indicator">4</div>
+        <span style="font-size:0.75rem; font-weight:600;">Inventory</span>
+      </div>
+    </div>
+
+    <!-- Wizard Steps Form panels -->
+    <form id="wizard-form" onsubmit="handleWizardSubmit(event)">
+      
+      <!-- STEP 1: Organization Details -->
+      <div class="wizard-step active" id="step-1">
+        <h2 style="font-size:1.5rem; margin-bottom:10px;">Setup Business Identity</h2>
+        <p style="color:var(--text-secondary); font-size:0.875rem; margin-bottom:24px;">Configure corporate profiles for invoice sheets and labels.</p>
+        
+        <div class="form-group">
+          <label class="form-label" for="org-phone">Company Phone Number</label>
+          <input type="text" id="org-phone" class="form-control" placeholder="+1 555 123 4567" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="org-address">Company Business Address</label>
+          <input type="text" id="org-address" class="form-control" placeholder="123 Warehouses Rd, Logistics Park, New York" required />
+        </div>
+        
+        <div style="display:flex; justify-content:flex-end; margin-top:30px;">
+          <button type="button" class="btn btn-primary" onclick="goToStep(2)">Continue <i data-lucide="arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Localization Details -->
+      <div class="wizard-step" id="step-2">
+        <h2 style="font-size:1.5rem; margin-bottom:10px;">Set Regional Configurations</h2>
+        <p style="color:var(--text-secondary); font-size:0.875rem; margin-bottom:24px;">Assign base currencies and default regional tax codes.</p>
+        
+        <div class="form-group">
+          <label class="form-label" for="org-currency">Base Currency</label>
+          <select id="org-currency" class="form-control">
+            <option value="USD">USD ($) - US Dollar</option>
+            <option value="INR">INR (₹) - Indian Rupee</option>
+            <option value="EUR">EUR (€) - Euro</option>
+            <option value="AED">AED (د.إ) - UAE Dirham</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="org-tax">Standard Tax Rate (Percentage)</label>
+          <input type="number" id="org-tax" class="form-control" value="18" placeholder="18" min="0" max="100" />
+        </div>
+        
+        <div style="display:flex; justify-content:space-between; margin-top:30px;">
+          <button type="button" class="btn btn-secondary" onclick="goToStep(1)"><i data-lucide="arrow-left"></i> Back</button>
+          <button type="button" class="btn btn-primary" onclick="goToStep(3)">Continue <i data-lucide="arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Create Warehouse -->
+      <div class="wizard-step" id="step-3">
+        <h2 style="font-size:1.5rem; margin-bottom:10px;">Establish Primary Storage Location</h2>
+        <p style="color:var(--text-secondary); font-size:0.875rem; margin-bottom:24px;">StockPilot operates on multi-warehouse logistics. Create your default storage hub.</p>
+        
+        <div class="form-group">
+          <label class="form-label" for="wh-name">Warehouse Name</label>
+          <input type="text" id="wh-name" class="form-control" value="Main Warehouse A" placeholder="e.g. Dallas Distribution Hub" required />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="wh-code">Warehouse Code</label>
+          <input type="text" id="wh-code" class="form-control" value="WH-A" placeholder="e.g. WH-DAL" required />
+        </div>
+        
+        <div style="display:flex; justify-content:space-between; margin-top:30px;">
+          <button type="button" class="btn btn-secondary" onclick="goToStep(2)"><i data-lucide="arrow-left"></i> Back</button>
+          <button type="button" class="btn btn-primary" onclick="goToStep(4)">Continue <i data-lucide="arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- STEP 4: First Product -->
+      <div class="wizard-step" id="step-4">
+        <h2 style="font-size:1.5rem; margin-bottom:10px;">Publish First Inventory SKU</h2>
+        <p style="color:var(--text-secondary); font-size:0.875rem; margin-bottom:24px;">Create your first active item listing to verify stock ledger graphs.</p>
+        
+        <div class="form-group">
+          <label class="form-label" for="prod-name">Product Name</label>
+          <input type="text" id="prod-name" class="form-control" placeholder="e.g. Bluetooth wireless Headphones" required />
+        </div>
+        
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div class="form-group">
+            <label class="form-label" for="prod-sku">SKU Code</label>
+            <input type="text" id="prod-sku" class="form-control" placeholder="e.g. PRD-HEADPHONE" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="prod-barcode">Barcode (Optional)</label>
+            <input type="text" id="prod-barcode" class="form-control" placeholder="UPC number" />
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div class="form-group">
+            <label class="form-label" for="prod-purchase">Purchase Cost ($)</label>
+            <input type="number" id="prod-purchase" class="form-control" placeholder="25" min="0" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="prod-selling">Selling Price ($)</label>
+            <input type="number" id="prod-selling" class="form-control" placeholder="59" min="0" required />
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:30px;">
+          <button type="button" class="btn btn-secondary" onclick="goToStep(3)"><i data-lucide="arrow-left"></i> Back</button>
+          <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Complete Onboarding</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <script src="/assets/js/api.js"></script>
+  <script>
+    lucide.createIcons();
+    checkAuth();
+
+    function goToStep(stepNum) {
+      // Basic input validation before letting user change steps
+      const currentStep = document.querySelector('.wizard-step.active');
+      const inputs = currentStep.querySelectorAll('input[required]');
+      let valid = true;
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          valid = false;
+          input.style.borderColor = 'var(--danger)';
+        } else {
+          input.style.borderColor = 'var(--border-color)';
+        }
+      });
+
+      if (!valid && stepNum > parseInt(currentStep.id.split('-')[1])) {
+        showToast('Please fill out the required settings before continuing.', 'warning');
+        return;
+      }
+
+      // Hide all steps
+      document.querySelectorAll('.wizard-step').forEach(step => step.classList.remove('active'));
+      // Show targeted step
+      document.getElementById('step-' + stepNum).classList.add('active');
+
+      // Update indicator list
+      document.querySelectorAll('.indicator-group').forEach(grp => {
+        const indStep = parseInt(grp.getAttribute('data-step'));
+        const indicator = grp.querySelector('.step-indicator');
+        indicator.className = 'step-indicator';
+        
+        if (indStep < stepNum) {
+          indicator.classList.add('completed');
+          indicator.innerHTML = '✓';
+        } else if (indStep === stepNum) {
+          indicator.classList.add('active');
+          indicator.innerHTML = indStep;
+        } else {
+          indicator.innerHTML = indStep;
+        }
+      });
+    }
+
+    const handleWizardSubmit = async (e) => {
+      e.preventDefault();
+
+      // Step values
+      const phone = document.getElementById('org-phone').value;
+      const address = document.getElementById('org-address').value;
+      const currency = document.getElementById('org-currency').value;
+      const taxRate = document.getElementById('org-tax').value;
+      
+      const whName = document.getElementById('wh-name').value;
+      const whCode = document.getElementById('wh-code').value;
+
+      const pName = document.getElementById('prod-name').value;
+      const pSku = document.getElementById('prod-sku').value;
+      const pBarcode = document.getElementById('prod-barcode').value;
+      const pPurchase = document.getElementById('prod-purchase').value;
+      const pSelling = document.getElementById('prod-selling').value;
+
+      try {
+        // 1. Update Organization Profile settings
+        await apiCall('/settings', {
+          method: 'PUT',
+          body: JSON.stringify({ phone, address, currency, taxRate })
+        });
+
+        // 2. Create the custom default Warehouse (wipes out the seeded default WH-A if created)
+        const whRes = await apiCall('/warehouses', {
+          method: 'POST',
+          body: JSON.stringify({ name: whName, code: whCode, address })
+        });
+
+        // 3. Create General Category
+        const catRes = await apiCall('/categories');
+        const categories = catRes.categories;
+        const generalCatId = categories.length > 0 ? categories[0]._id : null;
+
+        // 4. Create the First product
+        await apiCall('/products', {
+          method: 'POST',
+          body: JSON.stringify({
+            name: pName,
+            sku: pSku,
+            barcode: pBarcode,
+            purchasePrice: pPurchase,
+            sellingPrice: pSelling,
+            category: generalCatId
+          })
+        });
+
+        showToast('Onboarding configurations completed. Loading workspace...', 'success');
+        setTimeout(() => {
+          window.location.href = '/app/dashboard.html';
+        }, 1500);
+      } catch (err) {
+        // Handled
+      }
+    };
+  </script>
+</body>
+</html>

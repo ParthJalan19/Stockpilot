@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-accent="blue">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Users | StockPilot</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div style="background:var(--accent-color); width:32px; height:32px; border-radius:4px; display:flex; align-items:center; justify-content:center; color:white;"><i data-lucide="package" style="width:16px;"></i></div>
+        <span style="font-weight:700;font-size:1.2rem;">StockPilot</span>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="/app/dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="/app/products.html" class="sidebar-link"><i data-lucide="box"></i> <span>Inventory</span></a></li>
+        <li><a href="/app/categories.html" class="sidebar-link"><i data-lucide="tags"></i> <span>Categories</span></a></li>
+        <li><a href="/app/warehouses.html" class="sidebar-link"><i data-lucide="warehouse"></i> <span>Warehouses</span></a></li>
+        <li><a href="/app/adjustments.html" class="sidebar-link"><i data-lucide="sliders"></i> <span>Adjustments</span></a></li>
+        <li><a href="/app/transfers.html" class="sidebar-link"><i data-lucide="arrow-left-right"></i> <span>Transfers</span></a></li>
+        <li><a href="/app/returns.html" class="sidebar-link"><i data-lucide="rotate-ccw"></i> <span>Returns</span></a></li>
+        <li><a href="/app/suppliers.html" class="sidebar-link"><i data-lucide="users"></i> <span>Suppliers</span></a></li>
+        <li><a href="/app/customers.html" class="sidebar-link"><i data-lucide="user-check"></i> <span>Customers</span></a></li>
+        <li><a href="/app/purchase-orders.html" class="sidebar-link"><i data-lucide="shopping-cart"></i> <span>Purchase Orders</span></a></li>
+        <li><a href="/app/sales.html" class="sidebar-link"><i data-lucide="receipt"></i> <span>Sales Invoices</span></a></li>
+        <li><a href="/app/reports.html" class="sidebar-link"><i data-lucide="bar-chart-3"></i> <span>Reports</span></a></li>
+        <li><a href="/app/users.html" class="sidebar-link active"><i data-lucide="shield"></i> <span>Users</span></a></li>
+        <li><a href="/app/settings.html" class="sidebar-link"><i data-lucide="settings"></i> <span>Settings</span></a></li>
+        <li><hr style="border:none; border-top:1px solid rgba(255,255,255,0.05); margin:10px 0;"></li>
+        <li><a href="/app/profile.html" class="sidebar-link"><i data-lucide="user"></i> <span>Profile</span></a></li>
+        <li><a href="#" onclick="handleLogout()" class="sidebar-link" style="color:var(--danger);"><i data-lucide="log-out"></i> <span>Logout</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Navbar -->
+      <nav class="top-navbar">
+        <div style="display:flex; align-items:center; gap:16px;">
+          <button class="nav-icon-btn sidebar-toggle-btn"><i data-lucide="menu"></i></button>
+          <span class="company-navbar-label" style="font-weight:600; font-size:1.1rem; color:var(--text-secondary);">Loading tenant...</span>
+        </div>
+        <div class="navbar-actions">
+          <button class="nav-icon-btn"><i data-lucide="bell"></i></button>
+          <div class="user-profile-nav" onclick="window.location.href='/app/profile.html'">
+            <img src="" alt="Profile" class="profile-avatar">
+            <span class="user-nav-name" style="font-weight:500; font-size:0.9rem; color:var(--text-primary);">Jane Admin</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Content -->
+      <div class="content-wrapper">
+        
+        <div class="page-header">
+          <div>
+            <h1 style="font-size:1.8rem; margin-bottom:4px;">User Directory & RBAC</h1>
+            <p style="color:var(--text-secondary); font-size:0.9rem;">Assign role profiles and restrict staff options using permission toggles.</p>
+          </div>
+          <div>
+            <button class="btn btn-primary" onclick="openUserModal()"><i data-lucide="user-plus"></i> Invite User</button>
+          </div>
+        </div>
+
+        <!-- Users list table -->
+        <div class="data-table-container">
+          <table class="data-table" id="users-table">
+            <thead>
+              <tr>
+                <th>User Details</th>
+                <th>Email Address</th>
+                <th>Role Profile</th>
+                <th>Permissions Count</th>
+                <th>Action Controls</th>
+              </tr>
+            </thead>
+            <tbody id="users-tbody">
+              <tr><td colspan="5" style="text-align:center; color:var(--text-tertiary);">No users registered</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <footer style="background-color:var(--bg-secondary); border-top:1px solid var(--border-color); padding: 20px; text-align:center; font-size:0.8rem; color:var(--text-secondary);">
+        Developed by Nexovian Technologies. Licensed Commercial SaaS Product.
+      </footer>
+    </main>
+
+  </div>
+
+  <!-- INVITE / EDIT USER MODAL -->
+  <div class="modal-overlay" id="user-modal">
+    <div class="modal-container" style="width:550px;">
+      <div class="modal-header">
+        <h3 id="user-modal-title">Invite User</h3>
+        <button style="background:none; border:none; font-size:1.5rem; color:var(--text-secondary); cursor:pointer;" onclick="closeUserModal()">×</button>
+      </div>
+      <form id="user-form" onsubmit="handleUserSubmit(event)">
+        <input type="hidden" id="user-id" />
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="usr-modal-name">Full Name</label>
+            <input type="text" id="usr-modal-name" class="form-control" placeholder="Bob Staff" required />
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="usr-modal-email">Email Address</label>
+            <input type="email" id="usr-modal-email" class="form-control" placeholder="name@company.com" required />
+          </div>
+
+          <div class="form-group" id="usr-password-group">
+            <label class="form-label" for="usr-modal-pass">Account Password</label>
+            <input type="password" id="usr-modal-pass" class="form-control" placeholder="••••••••" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="usr-modal-role">Role Profile</label>
+            <select id="usr-modal-role" class="form-control" onchange="toggleRolePermissionCheckboxes()">
+              <option value="Employee">Employee</option>
+              <option value="Manager">Manager</option>
+              <option value="Admin">Admin</option>
+            </select>
+          </div>
+
+          <h4 style="margin-bottom:12px; font-size:0.95rem; border-bottom:1px solid var(--border-color); padding-bottom:6px; margin-top:20px;">Role-Based Permissions Toggles</h4>
+          <div id="usr-permissions-container" style="display:flex; flex-direction:column; gap:10px;">
+            <label style="display:flex; align-items:center; gap:10px; font-size:0.875rem; cursor:pointer;">
+              <input type="checkbox" class="perm-checkbox" value="can_edit_products" /> Edit products catalog
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; font-size:0.875rem; cursor:pointer;">
+              <input type="checkbox" class="perm-checkbox" value="can_delete_products" /> Delete products catalog
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; font-size:0.875rem; cursor:pointer;">
+              <input type="checkbox" class="perm-checkbox" value="can_create_sales" /> Create Sales Invoices
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; font-size:0.875rem; cursor:pointer;">
+              <input type="checkbox" class="perm-checkbox" value="can_approve_purchase" /> Approve Purchase Orders
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; font-size:0.875rem; cursor:pointer;">
+              <input type="checkbox" class="perm-checkbox" value="can_export" /> Export CSV/PDF reports
+            </label>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeUserModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save User</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/app.js"></script>
+  <script src="/assets/js/pages/users.js"></script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-accent="blue">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | StockPilot</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div style="background:var(--accent-color); width:32px; height:32px; border-radius:4px; display:flex; align-items:center; justify-content:center; color:white;"><i data-lucide="package" style="width:16px;"></i></div>
+        <span style="font-weight:700;font-size:1.2rem;">StockPilot</span>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="/app/dashboard.html" class="sidebar-link active"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="/app/products.html" class="sidebar-link"><i data-lucide="box"></i> <span>Inventory</span></a></li>
+        <li><a href="/app/categories.html" class="sidebar-link"><i data-lucide="tags"></i> <span>Categories</span></a></li>
+        <li><a href="/app/warehouses.html" class="sidebar-link"><i data-lucide="warehouse"></i> <span>Warehouses</span></a></li>
+        <li><a href="/app/adjustments.html" class="sidebar-link"><i data-lucide="sliders"></i> <span>Adjustments</span></a></li>
+        <li><a href="/app/transfers.html" class="sidebar-link"><i data-lucide="arrow-left-right"></i> <span>Transfers</span></a></li>
+        <li><a href="/app/returns.html" class="sidebar-link"><i data-lucide="rotate-ccw"></i> <span>Returns</span></a></li>
+        <li><a href="/app/suppliers.html" class="sidebar-link"><i data-lucide="users"></i> <span>Suppliers</span></a></li>
+        <li><a href="/app/customers.html" class="sidebar-link"><i data-lucide="user-check"></i> <span>Customers</span></a></li>
+        <li><a href="/app/purchase-orders.html" class="sidebar-link"><i data-lucide="shopping-cart"></i> <span>Purchase Orders</span></a></li>
+        <li><a href="/app/sales.html" class="sidebar-link"><i data-lucide="receipt"></i> <span>Sales Invoices</span></a></li>
+        <li><a href="/app/reports.html" class="sidebar-link"><i data-lucide="bar-chart-3"></i> <span>Reports</span></a></li>
+        <li><a href="/app/users.html" class="sidebar-link"><i data-lucide="shield"></i> <span>Users</span></a></li>
+        <li><a href="/app/settings.html" class="sidebar-link"><i data-lucide="settings"></i> <span>Settings</span></a></li>
+        <li><hr style="border:none; border-top:1px solid rgba(255,255,255,0.05); margin:10px 0;"></li>
+        <li><a href="/app/profile.html" class="sidebar-link"><i data-lucide="user"></i> <span>Profile</span></a></li>
+        <li><a href="#" onclick="handleLogout()" class="sidebar-link" style="color:var(--danger);"><i data-lucide="log-out"></i> <span>Logout</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Navbar -->
+      <nav class="top-navbar">
+        <div style="display:flex; align-items:center; gap:16px;">
+          <button class="nav-icon-btn sidebar-toggle-btn"><i data-lucide="menu"></i></button>
+          <span class="company-navbar-label" style="font-weight:600; font-size:1.1rem; color:var(--text-secondary);">Loading tenant...</span>
+        </div>
+        <div class="search-bar-container" onclick="toggleCommandPalette(true)" style="cursor:pointer;">
+          <i data-lucide="search" style="color:var(--text-tertiary);"></i>
+          <span style="color:var(--text-tertiary); font-size:0.9rem; flex:1;">Search everything...</span>
+          <span class="search-shortcut">Ctrl + K</span>
+        </div>
+        <div class="navbar-actions">
+          <button class="nav-icon-btn" onclick="toggleNotifications()"><i data-lucide="bell"></i><span class="nav-icon-badge">2</span></button>
+          <div class="user-profile-nav" onclick="window.location.href='/app/profile.html'">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Profile" class="profile-avatar">
+            <span class="user-nav-name" style="font-weight:500; font-size:0.9rem; color:var(--text-primary);">Jane Admin</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Content Grid -->
+      <div class="content-wrapper">
+        
+        <!-- Welcome banner -->
+        <div class="page-header">
+          <div>
+            <h1 style="font-size:1.8rem; margin-bottom:4px;">Workspace Dashboard</h1>
+            <p style="color:var(--text-secondary); font-size:0.9rem;">Real-time view of your multi-warehouse inventory performance.</p>
+          </div>
+          <div style="display:flex; gap:12px;">
+            <button class="btn btn-secondary" onclick="executePaletteCommand('/new-sale')"><i data-lucide="plus"></i> New Sale</button>
+            <button class="btn btn-primary" onclick="openOnboardingWizard()"><i data-lucide="rocket"></i> Setup Wizard</button>
+          </div>
+        </div>
+
+        <!-- Customizable KPI Widgets Row -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:20px; margin-bottom:32px;">
+          
+          <div class="premium-card" style="cursor:pointer;" onclick="window.location.href='/app/sales.html'">
+            <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+              <span style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase;">Today's Sales</span>
+              <span style="color:var(--success);"><i data-lucide="trending-up"></i></span>
+            </div>
+            <div id="kpi-today-sales" style="font-size:1.6rem; font-weight:700; font-family:var(--font-numbers); color:var(--success);">$0.00</div>
+            <div style="font-size:0.75rem; color:var(--text-tertiary); margin-top:8px;">Live transaction revenue</div>
+          </div>
+
+          <div class="premium-card" style="cursor:pointer;" onclick="window.location.href='/app/purchase-orders.html'">
+            <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+              <span style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase;">Today's Purchases</span>
+              <span style="color:var(--warning);"><i data-lucide="shopping-bag"></i></span>
+            </div>
+            <div id="kpi-today-purchases" style="font-size:1.6rem; font-weight:700; font-family:var(--font-numbers); color:var(--text-primary);">$0.00</div>
+            <div style="font-size:0.75rem; color:var(--text-tertiary); margin-top:8px;">Stock supply expenditures</div>
+          </div>
+
+          <div class="premium-card" style="cursor:pointer;" onclick="window.location.href='/app/products.html'">
+            <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+              <span style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase;">Inventory Value</span>
+              <span style="color:var(--accent-color);"><i data-lucide="wallet"></i></span>
+            </div>
+            <div id="kpi-inv-value" style="font-size:1.6rem; font-weight:700; font-family:var(--font-numbers); color:var(--accent-color);">$0.00</div>
+            <div style="font-size:0.75rem; color:var(--text-tertiary); margin-top:8px;">Market selling total</div>
+          </div>
+
+          <div class="premium-card" style="cursor:pointer;" onclick="window.location.href='/app/products.html?stockStatus=LowStock'">
+            <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+              <span style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase;">Low Stock Alerts</span>
+              <span style="color:var(--danger);"><i data-lucide="alert-triangle"></i></span>
+            </div>
+            <div id="kpi-low-stock" style="font-size:1.6rem; font-weight:700; font-family:var(--font-numbers); color:var(--danger);">0 Items</div>
+            <div style="font-size:0.75rem; color:var(--text-tertiary); margin-top:8px;">Needs immediate reordering</div>
+          </div>
+
+        </div>
+
+        <!-- Charts Dashboard Grid -->
+        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:24px; margin-bottom:32px;">
+          
+          <!-- Large Revenue spline Chart -->
+          <div class="premium-card">
+            <h3 style="font-size:1.1rem; margin-bottom:20px; display:flex; align-items:center; gap:8px;"><i data-lucide="bar-chart-4" style="color:var(--accent-color);"></i> Revenue Growth & Sales Volumes</h3>
+            <div style="height:320px; position:relative;">
+              <canvas id="chart-revenue"></canvas>
+            </div>
+          </div>
+
+          <!-- Category Split Pie Chart -->
+          <div class="premium-card">
+            <h3 style="font-size:1.1rem; margin-bottom:20px; display:flex; align-items:center; gap:8px;"><i data-lucide="pie-chart" style="color:var(--accent-color);"></i> Category Shares</h3>
+            <div style="height:320px; position:relative; display:flex; align-items:center; justify-content:center;">
+              <canvas id="chart-categories" style="max-height: 260px; max-width: 260px;"></canvas>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; margin-bottom:32px;">
+          <!-- Warehouse stock levels Donut -->
+          <div class="premium-card">
+            <h3 style="font-size:1.1rem; margin-bottom:20px; display:flex; align-items:center; gap:8px;"><i data-lucide="donut" style="color:var(--accent-color);"></i> Warehouse Stock Split</h3>
+            <div style="height:250px; position:relative; display:flex; align-items:center; justify-content:center;">
+              <canvas id="chart-warehouses" style="max-height: 200px; max-width: 200px;"></canvas>
+            </div>
+          </div>
+
+          <!-- Movement history logs ledger chart -->
+          <div class="premium-card">
+            <h3 style="font-size:1.1rem; margin-bottom:20px; display:flex; align-items:center; gap:8px;"><i data-lucide="activity" style="color:var(--accent-color);"></i> Stock Movement Ledgers</h3>
+            <div style="height:250px; position:relative;">
+              <canvas id="chart-movements"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calendar + Timeline Activity Row -->
+        <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:24px;">
+          
+          <!-- Calendar widget -->
+          <div class="premium-card">
+            <h3 style="font-size:1.1rem; margin-bottom:20px; display:flex; align-items:center; gap:8px;"><i data-lucide="calendar" style="color:var(--accent-color);"></i> Logistic Schedule Calendar</h3>
+            <div id="dashboard-calendar-list" style="display:flex; flex-direction:column; gap:10px; max-height: 300px; overflow-y:auto;">
+              <div style="color:var(--text-tertiary); text-align:center; padding:20px;">No upcoming due events logged</div>
+            </div>
+          </div>
+
+          <!-- Activity Timeline -->
+          <div class="premium-card">
+            <h3 style="font-size:1.1rem; margin-bottom:20px; display:flex; align-items:center; gap:8px;"><i data-lucide="clock" style="color:var(--accent-color);"></i> Operations Timeline</h3>
+            <div id="dashboard-timeline" style="display:flex; flex-direction:column; gap:16px; max-height:300px; overflow-y:auto; padding-left:10px; border-left:2px solid var(--border-color);">
+              <!-- Timeline nodes -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <footer style="background-color:var(--bg-secondary); border-top:1px solid var(--border-color); padding: 20px; text-align:center; font-size:0.8rem; color:var(--text-secondary);">
+        Developed by Nexovian Technologies. Licensed Commercial SaaS Product.
+      </footer>
+    </main>
+
+    <!-- Mobile Navigation Bar -->
+    <nav class="mobile-bottom-nav">
+      <a href="/app/dashboard.html" class="mobile-nav-item active"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+      <a href="/app/products.html" class="mobile-nav-item"><i data-lucide="box"></i><span>Inventory</span></a>
+      <a href="/app/sales.html" class="mobile-nav-item"><i data-lucide="receipt"></i><span>Sales</span></a>
+      <a href="/app/reports.html" class="mobile-nav-item"><i data-lucide="bar-chart-3"></i><span>Reports</span></a>
+      <a href="/app/profile.html" class="mobile-nav-item"><i data-lucide="user"></i><span>Profile</span></a>
+    </nav>
+
+  </div>
+
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/app.js"></script>
+  <!-- Load page specific dashboard controller script -->
+  <script src="/assets/js/dashboard.js"></script>
+  <script>
+    function openOnboardingWizard() {
+      window.location.href = '/app/onboarding.html';
+    }
+
+    const handleLogout = async () => {
+      const rToken = localStorage.getItem('stockpilot_refresh_token');
+      try {
+        await apiCall('/auth/logout', {
+          method: 'POST',
+          body: JSON.stringify({ refreshToken: rToken })
+        });
+      } catch (err) {}
+      localStorage.clear();
+      window.location.href = '/app/login.html';
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StockPilot - Smart Inventory Management for Modern Businesses</title>
+  <meta name="description" content="Commercial enterprise grade SaaS inventory tracker supporting multi-tenancy, warehouse workflows, QR/barcodes, and analytics.">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body style="padding-top: 80px;">
+
+  <!-- Header -->
+  <header class="landing-header">
+    <div class="logo-container">
+      <div class="logo-icon"><i data-lucide="package"></i></div>
+      <span>StockPilot</span>
+    </div>
+    <nav class="landing-nav">
+      <a href="/landing/index.html" style="color: var(--accent-color);">Home</a>
+      <a href="/landing/features.html">Features</a>
+      <a href="/landing/pricing.html">Pricing</a>
+      <a href="/landing/about.html">About</a>
+      <a href="/landing/contact.html">Book Demo</a>
+    </nav>
+    <div>
+      <a href="/app" class="btn btn-primary" style="padding: 8px 20px;"><i data-lucide="log-in"></i> Launch App</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" id="hero">
+    <span style="font-weight:700;color:var(--accent-color);text-transform:uppercase;letter-spacing:1px;font-size:0.875rem;">Premium Enterprise Solution</span>
+    <h1 class="hero-title" style="margin-top:10px;">Smart Inventory Management<br>for Modern Businesses</h1>
+    <p class="hero-subtitle">Optimize operations, control items across multiple warehouses, print QR labels, and execute custom workflows in a high-fidelity SaaS dashboard.</p>
+    <div style="display:flex;justify-content:center;gap:16px;">
+      <a href="/app?action=register" class="btn btn-primary btn-lg"><i data-lucide="user-plus"></i> Get Started Free</a>
+      <a href="/landing/contact.html" class="btn btn-secondary btn-lg"><i data-lucide="calendar"></i> Book a Demo</a>
+    </div>
+
+    <!-- Live Preview Mockup Card -->
+    <div class="glass-panel" style="margin: 60px auto 0; max-width: 1000px; padding: 10px; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium);">
+      <div style="background:#111827; height: 500px; border-radius: var(--radius-md); display:flex; align-items:center; justify-content:center; color:white; overflow:hidden; position:relative;">
+        <!-- Simulated Dashboard UI -->
+        <div style="width:100%; height:100%; display: grid; grid-template-columns: 200px 1fr; text-align: left;">
+          <!-- Left side -->
+          <div style="background:#090d16; border-right:1px solid #1f2a3c; padding:20px; font-size:0.8rem;">
+            <div style="font-weight:700; font-size:1rem; margin-bottom:30px; color:#2563eb;">StockPilot App</div>
+            <div style="display:flex; flex-direction:column; gap:12px; opacity:0.6;">
+              <div><i data-lucide="layout-dashboard" style="width:14px;vertical-align:middle;"></i> Dashboard</div>
+              <div><i data-lucide="box" style="width:14px;vertical-align:middle;"></i> Inventory</div>
+              <div><i data-lucide="warehouse" style="width:14px;vertical-align:middle;"></i> Warehouses</div>
+              <div><i data-lucide="arrow-left-right" style="width:14px;vertical-align:middle;"></i> Stock Transfers</div>
+              <div><i data-lucide="bar-chart-3" style="width:14px;vertical-align:middle;"></i> reports</div>
+            </div>
+          </div>
+          <!-- Content Preview -->
+          <div style="padding:30px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-size:1.2rem; font-weight:700;">Dashboard Overview</div>
+                <div style="font-size:0.75rem; color:#9ca3af;">Apex Electronics Corp Tenant</div>
+              </div>
+              <div style="background:#1f2937; padding:4px 10px; border-radius:4px; font-size:0.7rem;">Active Users: 4</div>
+            </div>
+            <!-- Widgets -->
+            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin:20px 0;">
+              <div style="background:#1e293b; padding:15px; border-radius:8px;">
+                <div style="font-size:0.7rem; color:#9ca3af;">TODAY'S REVENUE</div>
+                <div style="font-size:1.3rem; font-weight:700; color:#10b981; font-family:var(--font-numbers);">$3,131.46</div>
+              </div>
+              <div style="background:#1e293b; padding:15px; border-radius:8px;">
+                <div style="font-size:0.7rem; color:#9ca3af;">INVENTORY VALUE</div>
+                <div style="font-size:1.3rem; font-weight:700; color:#2563eb; font-family:var(--font-numbers);">$55,410.00</div>
+              </div>
+              <div style="background:#1e293b; padding:15px; border-radius:8px;">
+                <div style="font-size:0.7rem; color:#9ca3af;">LOW STOCK ITEMS</div>
+                <div style="font-size:1.3rem; font-weight:700; color:#ef4444; font-family:var(--font-numbers);">2 Items</div>
+              </div>
+            </div>
+            <!-- Chart Preview -->
+            <div style="background:#1e293b; flex:1; border-radius:8px; padding:15px; display:flex; flex-direction:column; justify-content:space-between;">
+              <div style="font-size:0.75rem; color:#9ca3af;">Revenue Growth Matrix</div>
+              <div style="height:80px; border-bottom:2px dashed #334155; position:relative; display:flex; align-items:flex-end;">
+                <!-- Simulated spline chart curves -->
+                <div style="position:absolute; width:100%; height:100%; display:flex; align-items:flex-end; justify-content:space-between; padding-bottom:5px;">
+                  <div style="height:10%; width:20px; background:#2563eb; border-radius:4px 4px 0 0;"></div>
+                  <div style="height:35%; width:20px; background:#2563eb; border-radius:4px 4px 0 0;"></div>
+                  <div style="height:45%; width:20px; background:#2563eb; border-radius:4px 4px 0 0;"></div>
+                  <div style="height:65%; width:20px; background:#2563eb; border-radius:4px 4px 0 0;"></div>
+                  <div style="height:90%; width:20px; background:#10b981; border-radius:4px 4px 0 0;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key SaaS Benefits -->
+  <section style="background-color: var(--bg-secondary); padding: 80px 24px; border-top:1px solid var(--border-color);">
+    <div style="max-width:1200px; margin:0 auto; text-align:center;">
+      <h2 style="font-size: 2.2rem; margin-bottom:12px;">Engineered for High-Growth Enterprise</h2>
+      <p style="color:var(--text-secondary); max-width:600px; margin:0 auto 48px;">StockPilot provides tools tailored to help organizations automate stock levels, verify entries, and increase profits.</p>
+      
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px;">
+        <div class="premium-card" style="text-align:left;">
+          <div style="background:rgba(37,99,235,0.1); width:48px; height:48px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--accent-color); margin-bottom:20px;">
+            <i data-lucide="shield-check"></i>
+          </div>
+          <h3 style="margin-bottom:10px; font-size:1.25rem;">Multi-Tenant RBAC</h3>
+          <p style="color:var(--text-secondary); font-size:0.9rem;">Enforce isolated databases for each company. Set permission checkboxes for managers and employees.</p>
+        </div>
+        <div class="premium-card" style="text-align:left;">
+          <div style="background:rgba(16,185,129,0.1); width:48px; height:48px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--success); margin-bottom:20px;">
+            <i data-lucide="arrow-left-right"></i>
+          </div>
+          <h3 style="margin-bottom:10px; font-size:1.25rem;">Multi-Warehouse Transfers</h3>
+          <p style="color:var(--text-secondary); font-size:0.9rem;">Distribute items between warehouses. Request, approve, ship, and receive transfers with detailed timelines.</p>
+        </div>
+        <div class="premium-card" style="text-align:left;">
+          <div style="background:rgba(245,158,11,0.1); width:48px; height:48px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--warning); margin-bottom:20px;">
+            <i data-lucide="qr-code"></i>
+          </div>
+          <h3 style="margin-bottom:10px; font-size:1.25rem;">QR & Barcode Generator</h3>
+          <p style="color:var(--text-secondary); font-size:0.9rem;">Instantly generate high-fidelity Code128 barcodes and QR codes for price tags, products, and sheets.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Foot -->
+  <footer style="background-color:#111827; color:#9ca3af; padding: 48px 24px; text-align:center;">
+    <div style="max-width:1200px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:20px;">
+      <div style="display:flex; align-items:center; gap:8px; color:white; font-weight:700; font-size:1.2rem;">
+        <div style="background:var(--accent-color); width:28px; height:28px; border-radius:4px; display:flex; align-items:center; justify-content:center;"><i data-lucide="package" style="width:14px;height:14px;"></i></div>
+        StockPilot
+      </div>
+      <p style="font-size:0.9rem;">Smart Inventory Management for Modern Businesses.</p>
+      <p style="font-size:0.8rem; opacity:0.6; margin-top:20px;">Developed by Nexovian Technologies. Licensed Commercial SaaS Product.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>

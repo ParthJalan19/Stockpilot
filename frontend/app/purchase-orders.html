@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-accent="blue">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Purchase Orders | StockPilot</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div style="background:var(--accent-color); width:32px; height:32px; border-radius:4px; display:flex; align-items:center; justify-content:center; color:white;"><i data-lucide="package" style="width:16px;"></i></div>
+        <span style="font-weight:700;font-size:1.2rem;">StockPilot</span>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="/app/dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="/app/products.html" class="sidebar-link"><i data-lucide="box"></i> <span>Inventory</span></a></li>
+        <li><a href="/app/categories.html" class="sidebar-link"><i data-lucide="tags"></i> <span>Categories</span></a></li>
+        <li><a href="/app/warehouses.html" class="sidebar-link"><i data-lucide="warehouse"></i> <span>Warehouses</span></a></li>
+        <li><a href="/app/adjustments.html" class="sidebar-link"><i data-lucide="sliders"></i> <span>Adjustments</span></a></li>
+        <li><a href="/app/transfers.html" class="sidebar-link"><i data-lucide="arrow-left-right"></i> <span>Transfers</span></a></li>
+        <li><a href="/app/returns.html" class="sidebar-link"><i data-lucide="rotate-ccw"></i> <span>Returns</span></a></li>
+        <li><a href="/app/suppliers.html" class="sidebar-link"><i data-lucide="users"></i> <span>Suppliers</span></a></li>
+        <li><a href="/app/customers.html" class="sidebar-link"><i data-lucide="user-check"></i> <span>Customers</span></a></li>
+        <li><a href="/app/purchase-orders.html" class="sidebar-link active"><i data-lucide="shopping-cart"></i> <span>Purchase Orders</span></a></li>
+        <li><a href="/app/sales.html" class="sidebar-link"><i data-lucide="receipt"></i> <span>Sales Invoices</span></a></li>
+        <li><a href="/app/reports.html" class="sidebar-link"><i data-lucide="bar-chart-3"></i> <span>Reports</span></a></li>
+        <li><a href="/app/users.html" class="sidebar-link"><i data-lucide="shield"></i> <span>Users</span></a></li>
+        <li><a href="/app/settings.html" class="sidebar-link"><i data-lucide="settings"></i> <span>Settings</span></a></li>
+        <li><hr style="border:none; border-top:1px solid rgba(255,255,255,0.05); margin:10px 0;"></li>
+        <li><a href="/app/profile.html" class="sidebar-link"><i data-lucide="user"></i> <span>Profile</span></a></li>
+        <li><a href="#" onclick="handleLogout()" class="sidebar-link" style="color:var(--danger);"><i data-lucide="log-out"></i> <span>Logout</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Navbar -->
+      <nav class="top-navbar">
+        <div style="display:flex; align-items:center; gap:16px;">
+          <button class="nav-icon-btn sidebar-toggle-btn"><i data-lucide="menu"></i></button>
+          <span class="company-navbar-label" style="font-weight:600; font-size:1.1rem; color:var(--text-secondary);">Loading tenant...</span>
+        </div>
+        <div class="navbar-actions">
+          <button class="nav-icon-btn"><i data-lucide="bell"></i></button>
+          <div class="user-profile-nav" onclick="window.location.href='/app/profile.html'">
+            <img src="" alt="Profile" class="profile-avatar">
+            <span class="user-nav-name" style="font-weight:500; font-size:0.9rem; color:var(--text-primary);">Jane Admin</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Content -->
+      <div class="content-wrapper">
+        
+        <div class="page-header">
+          <div>
+            <h1 style="font-size:1.8rem; margin-bottom:4px;">Supplier Purchase Orders</h1>
+            <p style="color:var(--text-secondary); font-size:0.9rem;">Track stock replenishment transactions and supply intake audits.</p>
+          </div>
+          <div>
+            <button class="btn btn-primary" onclick="openPOModal()"><i data-lucide="plus"></i> Create Purchase Order</button>
+          </div>
+        </div>
+
+        <!-- PO table list -->
+        <div class="data-table-container">
+          <table class="data-table" id="purchases-table">
+            <thead>
+              <tr>
+                <th>PO Number</th>
+                <th>Supplier Vendor</th>
+                <th>Receiving Warehouse</th>
+                <th>Subtotal</th>
+                <th>Tax</th>
+                <th>Grand Total</th>
+                <th>Status</th>
+                <th>Workflow Stage Actions</th>
+              </tr>
+            </thead>
+            <tbody id="purchases-tbody">
+              <tr><td colspan="8" style="text-align:center; color:var(--text-tertiary);">No purchase order histories logged</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <footer style="background-color:var(--bg-secondary); border-top:1px solid var(--border-color); padding: 20px; text-align:center; font-size:0.8rem; color:var(--text-secondary);">
+        Developed by Nexovian Technologies. Licensed Commercial SaaS Product.
+      </footer>
+    </main>
+
+  </div>
+
+  <!-- CREATE PO MODAL -->
+  <div class="modal-overlay" id="po-modal">
+    <div class="modal-container" style="width:720px; max-width:95%;">
+      <div class="modal-header">
+        <h3>Create Purchase Order</h3>
+        <button style="background:none; border:none; font-size:1.5rem; color:var(--text-secondary); cursor:pointer;" onclick="closePOModal()">×</button>
+      </div>
+      <form id="po-form" onsubmit="handlePOSubmit(event)">
+        <div class="modal-body" style="max-height:65vh;">
+          
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+            <div class="form-group">
+              <label class="form-label" for="po-modal-supplier">Supplier Vendor</label>
+              <select id="po-modal-supplier" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="po-modal-warehouse">Receiving Warehouse</label>
+              <select id="po-modal-warehouse" class="form-control" required></select>
+            </div>
+          </div>
+
+          <h4 style="margin-bottom:12px; font-size:1rem; border-bottom:1px solid var(--border-color); padding-bottom:6px; display:flex; justify-content:space-between;">
+            <span>Replenishment Line Items</span>
+            <button type="button" class="btn btn-secondary" style="padding:4px 10px; font-size:0.8rem;" onclick="addPOItemRow()"><i data-lucide="plus" style="width:12px;"></i> Add Product</button>
+          </h4>
+          
+          <div id="po-items-container" style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+            <!-- Dynamic product line inputs -->
+          </div>
+
+          <!-- Total Calculation grid -->
+          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px; border-top:1px solid var(--border-color); padding-top:20px; font-size:0.9rem;">
+            <div>Discount Amount ($): <input type="number" id="po-modal-discount" class="form-control" style="width:100px; display:inline-block; padding:4px 8px; margin-left:10px;" value="0" min="0" oninput="calculatePOTotals()" /></div>
+            <div>Tax Rate (GST default): <span id="po-modal-tax-rate">18%</span></div>
+            <div style="font-size:1.1rem; font-weight:700; color:var(--accent-color);">Grand Total: <span id="po-modal-total-display">$0.00</span></div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closePOModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create PO</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/app.js"></script>
+  <script src="/assets/js/pages/purchase-orders.js"></script>
+</body>
+</html>

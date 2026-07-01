@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Features - StockPilot SaaS Inventory</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body style="padding-top: 80px;">
+
+  <!-- Header -->
+  <header class="landing-header">
+    <div class="logo-container">
+      <div class="logo-icon"><i data-lucide="package"></i></div>
+      <span>StockPilot</span>
+    </div>
+    <nav class="landing-nav">
+      <a href="/landing/index.html">Home</a>
+      <a href="/landing/features.html" style="color: var(--accent-color);">Features</a>
+      <a href="/landing/pricing.html">Pricing</a>
+      <a href="/landing/about.html">About</a>
+      <a href="/landing/contact.html">Book Demo</a>
+    </nav>
+    <div>
+      <a href="/app" class="btn btn-primary" style="padding: 8px 20px;"><i data-lucide="log-in"></i> Launch App</a>
+    </div>
+  </header>
+
+  <!-- Title Section -->
+  <section style="padding: 60px 24px; text-align: center; max-width:800px; margin:0 auto;">
+    <h1 style="font-size:2.8rem; margin-bottom:16px;">SaaS Enterprise Core Modules</h1>
+    <p style="color:var(--text-secondary); font-size:1.1rem;">Explore the full set of business inventory components built into StockPilot to streamline your supply chain and billing cycles.</p>
+  </section>
+
+  <!-- Features Grid -->
+  <section style="padding: 40px 24px 80px; max-width:1200px; margin:0 auto;">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:32px;">
+      
+      <div class="premium-card">
+        <div style="background:rgba(37,99,235,0.1); width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--accent-color); margin-bottom:20px;">
+          <i data-lucide="warehouse"></i>
+        </div>
+        <h3 style="margin-bottom:12px; font-size:1.25rem;">Multi-Warehouse Control</h3>
+        <p style="color:var(--text-secondary); font-size:0.9rem; line-height:1.6;">Track stock counts across warehouses, stores, or retail lockers. Real-time transfer workflows with approval tracking prevent discrepancy leaks.</p>
+      </div>
+
+      <div class="premium-card">
+        <div style="background:rgba(16,185,129,0.1); width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--success); margin-bottom:20px;">
+          <i data-lucide="barcode"></i>
+        </div>
+        <h3 style="margin-bottom:12px; font-size:1.25rem;">QR & Barcode Utilities</h3>
+        <p style="color:var(--text-secondary); font-size:0.9rem; line-height:1.6;">Generate standard Code-128 barcode SVGs and QR codes linking straight to inventory listings. Print layout templates optimized for label makers.</p>
+      </div>
+
+      <div class="premium-card">
+        <div style="background:rgba(239,68,68,0.1); width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--danger); margin-bottom:20px;">
+          <i data-lucide="file-spreadsheet"></i>
+        </div>
+        <h3 style="margin-bottom:12px; font-size:1.25rem;">Sales Invoicing & Purchase Orders</h3>
+        <p style="color:var(--text-secondary); font-size:0.9rem; line-height:1.6;">Manage invoices, calculate discounts, configure regional taxes (GST/VAT/Sales Tax), reserve items on pending orders, and download printable PDFs.</p>
+      </div>
+
+      <div class="premium-card">
+        <div style="background:rgba(245,158,11,0.1); width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--warning); margin-bottom:20px;">
+          <i data-lucide="shield-check"></i>
+        </div>
+        <h3 style="margin-bottom:12px; font-size:1.25rem;">Fine-Grained Permissions</h3>
+        <p style="color:var(--text-secondary); font-size:0.9rem; line-height:1.6;">Manage users through Role-Based Access Controls (RBAC). Configure user permissions checkboxes to restrict product deletions or data exporting.</p>
+      </div>
+
+      <div class="premium-card">
+        <div style="background:rgba(6,182,212,0.1); width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--info); margin-bottom:20px;">
+          <i data-lucide="terminal"></i>
+        </div>
+        <h3 style="margin-bottom:12px; font-size:1.25rem;">Shortcuts & Command Palette</h3>
+        <p style="color:var(--text-secondary); font-size:0.9rem; line-height:1.6;">Access navigation commands using global `Ctrl + K` hotkeys. Search across items, vendors, and clients or execute quick commands like Notion.</p>
+      </div>
+
+      <div class="premium-card">
+        <div style="background:rgba(139,92,246,0.1); width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#8b5cf6; margin-bottom:20px;">
+          <i data-lucide="database-backup"></i>
+        </div>
+        <h3 style="margin-bottom:12px; font-size:1.25rem;">Audit Logs & JSON Backups</h3>
+        <p style="color:var(--text-secondary); font-size:0.9rem; line-height:1.6;">Keep track of operational changes through complete before-and-after audit tables. Download full database JSON backups or restore tenant states instantly.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background-color:#111827; color:#9ca3af; padding: 48px 24px; text-align:center;">
+    <p style="font-size:0.9rem;">Developed by Nexovian Technologies. Licensed Commercial SaaS Product.</p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
