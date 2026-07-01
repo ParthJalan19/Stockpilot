@@ -32,9 +32,8 @@
   to = "/app/login.html"
   status = 200
 
-# Proxy frontend API calls to Render backend to avoid CORS/Hardcoded URLs
 [[redirects]]
   from = "/api/*"
-  to = "https://your-render-backend-url.onrender.com/api/:splat"
+  to = "https://stockpilot-jgwn.onrender.com/api/:splat"
   status = 200
   force = true
