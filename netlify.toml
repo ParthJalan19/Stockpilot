@@ -1,0 +1,40 @@
+[build]
+  publish = "frontend"
+
+# Netlify Path Rewriting & Routing
+[[redirects]]
+  from = "/"
+  to = "/landing/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/features"
+  to = "/landing/features.html"
+  status = 200
+
+[[redirects]]
+  from = "/pricing"
+  to = "/landing/pricing.html"
+  status = 200
+
+[[redirects]]
+  from = "/about"
+  to = "/landing/about.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact"
+  to = "/landing/contact.html"
+  status = 200
+
+[[redirects]]
+  from = "/app"
+  to = "/app/login.html"
+  status = 200
+
+# Proxy frontend API calls to Render backend to avoid CORS/Hardcoded URLs
+[[redirects]]
+  from = "/api/*"
+  to = "https://your-render-backend-url.onrender.com/api/:splat"
+  status = 200
+  force = true
